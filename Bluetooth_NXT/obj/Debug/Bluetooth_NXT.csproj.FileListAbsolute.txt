@@ -1,0 +1,12 @@
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\bin\Debug\Bluetooth_NXT.exe.config
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\bin\Debug\Bluetooth_NXT.exe
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\bin\Debug\Bluetooth_NXT.pdb
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.csprojAssemblyReference.cache
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.Form1.resources
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.Properties.Resources.resources
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.csproj.GenerateResource.cache
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.exe
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.pdb
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.csproj.CopyComplete
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\bin\Debug\Lego.Mindstorms.dll
+C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\bin\Debug\System.IO.Ports.dll

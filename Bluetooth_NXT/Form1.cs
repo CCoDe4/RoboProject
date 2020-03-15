@@ -122,7 +122,7 @@ namespace Bluetooth_NXT
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            C
+            //Send async commands to both motors
         }
     }
 }

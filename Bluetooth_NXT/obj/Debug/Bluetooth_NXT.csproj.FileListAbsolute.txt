@@ -10,3 +10,15 @@ C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.
 C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.csproj.CopyComplete
 C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\bin\Debug\Lego.Mindstorms.dll
 C:\Users\Goran\source\repos\Bluetooth_NXT\Bluetooth_NXT\bin\Debug\System.IO.Ports.dll
+E:\Repositories\RoboProject\Bluetooth_NXT\bin\Debug\Bluetooth_NXT.exe.config
+E:\Repositories\RoboProject\Bluetooth_NXT\bin\Debug\Bluetooth_NXT.exe
+E:\Repositories\RoboProject\Bluetooth_NXT\bin\Debug\Bluetooth_NXT.pdb
+E:\Repositories\RoboProject\Bluetooth_NXT\bin\Debug\Lego.Mindstorms.dll
+E:\Repositories\RoboProject\Bluetooth_NXT\bin\Debug\System.IO.Ports.dll
+E:\Repositories\RoboProject\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.csprojAssemblyReference.cache
+E:\Repositories\RoboProject\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.Form1.resources
+E:\Repositories\RoboProject\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.Properties.Resources.resources
+E:\Repositories\RoboProject\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.csproj.GenerateResource.cache
+E:\Repositories\RoboProject\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.csproj.CopyComplete
+E:\Repositories\RoboProject\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.exe
+E:\Repositories\RoboProject\Bluetooth_NXT\obj\Debug\Bluetooth_NXT.pdb

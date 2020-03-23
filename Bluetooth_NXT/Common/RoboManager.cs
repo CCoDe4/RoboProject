@@ -9,6 +9,7 @@ namespace Bluetooth_NXT.Common
 {
     public class RoboManager
     {
+        public SerialPort BluetoothConnection { get; set; }
         public void StopMotors(SerialPort bluetooth)
         {
             try
@@ -20,11 +21,10 @@ namespace Bluetooth_NXT.Common
 
                 bluetooth.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
                 bluetooth.Write(Command, 0, Command.Length); // send the message itself
-
             }
             catch (Exception ex)
             {
-
+                //test
                 return;
             }
         }

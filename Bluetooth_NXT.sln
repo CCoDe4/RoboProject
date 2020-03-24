@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29424.173
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bluetooth_NXT", "Bluetooth_NXT\Bluetooth_NXT.csproj", "{CD0F35EB-93F8-4AF3-8520-F8272651A327}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileHMI.Android", "MobileHMI\MobileHMI.Android\MobileHMI.Android.csproj", "{FA281636-CE5F-47A3-9791-9059C7DD245C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileHMI", "MobileHMI\MobileHMI\MobileHMI.csproj", "{1EEB9154-B0EF-469C-B0EE-D69B449E34E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,16 @@ Global
 		{CD0F35EB-93F8-4AF3-8520-F8272651A327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD0F35EB-93F8-4AF3-8520-F8272651A327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD0F35EB-93F8-4AF3-8520-F8272651A327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA281636-CE5F-47A3-9791-9059C7DD245C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA281636-CE5F-47A3-9791-9059C7DD245C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA281636-CE5F-47A3-9791-9059C7DD245C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FA281636-CE5F-47A3-9791-9059C7DD245C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA281636-CE5F-47A3-9791-9059C7DD245C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA281636-CE5F-47A3-9791-9059C7DD245C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1EEB9154-B0EF-469C-B0EE-D69B449E34E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EEB9154-B0EF-469C-B0EE-D69B449E34E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EEB9154-B0EF-469C-B0EE-D69B449E34E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EEB9154-B0EF-469C-B0EE-D69B449E34E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

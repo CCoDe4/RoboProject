@@ -10,16 +10,34 @@
         <Button
             Text="Scan for NXT"
             Clicked="ScanForDevices">
-
         </Button>
 
-        <Label Text="Welcome to Xamarin Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <Label Text="Disconnected"
+               TextColor="Red"/>
 
-        <Label Text="Selected Devices"
+        <StackLayout VerticalOptions="CenterAndExpand">
+            <StackLayout 
+                         HorizontalOptions="Center"
+                         VerticalOptions="CenterAndExpand">
+
+                <Button Text="Up"/>
+
+            </StackLayout>
+            <StackLayout 
                 HorizontalOptions="Center"
-                VerticalOptions="CenterAndExpand"/>
+                Orientation="Horizontal">
+
+                <Button Text="Left"/>
+                <Button Text="Down"/>
+                <Button Text="Right"/>
+
+            </StackLayout>
+            <Button BackgroundColor="Red"
+                    TextColor="White"
+                    Text="STOP"
+                    Clicked="ScanForDevices">
+            </Button>
+        </StackLayout>
 
     </StackLayout>
 

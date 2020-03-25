@@ -10,7 +10,7 @@ namespace Bluetooth_NXT.Common
     public class RoboManager
     {
         public SerialPort BluetoothConnection { get; set; }
-        public void StopMotors(SerialPort bluetooth)
+        public void StopMotors()
         {
             try
             {
@@ -19,8 +19,8 @@ namespace Bluetooth_NXT.Common
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
-                bluetooth.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
-                bluetooth.Write(Command, 0, Command.Length); // send the message itself
+                this.BluetoothConnection.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+                this.BluetoothConnection.Write(Command, 0, Command.Length); // send the message itself
             }
             catch (Exception ex)
             {
@@ -29,7 +29,7 @@ namespace Bluetooth_NXT.Common
             }
         }
 
-        public void MoveForwards(SerialPort bluetooth)
+        public void MoveForwards()
         {
             try
             {
@@ -40,8 +40,8 @@ namespace Bluetooth_NXT.Common
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
-                bluetooth.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
-                bluetooth.Write(Command, 0, Command.Length); // send the message itself
+                this.BluetoothConnection.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+                this.BluetoothConnection.Write(Command, 0, Command.Length); // send the message itself
 
 
                 // retrieve the reply length 
@@ -65,7 +65,7 @@ namespace Bluetooth_NXT.Common
 
         }
 
-        public void MoveBackwards(SerialPort bluetooth)
+        public void MoveBackwards()
         {
             try
             {
@@ -75,8 +75,8 @@ namespace Bluetooth_NXT.Common
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
-                bluetooth.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
-                bluetooth.Write(Command, 0, Command.Length); // send the message itself
+                this.BluetoothConnection.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+                this.BluetoothConnection.Write(Command, 0, Command.Length); // send the message itself
 
                 // retrieve the reply length 
                 //if (Command[0] == 0x80)
@@ -99,25 +99,26 @@ namespace Bluetooth_NXT.Common
 
         }
 
-        public SerialPort Connect(SerialPort bluetooth, string portName)
+        public bool Connect(string portName)
         {
             try
             {
-                bluetooth = new SerialPort();
-                bluetooth.PortName = portName;
 
-                bluetooth.Open();
-                bluetooth.ReadTimeout = 1500;
+                this.BluetoothConnection = new SerialPort();
+                this.BluetoothConnection.PortName = portName;
 
-                return bluetooth;
+                this.BluetoothConnection.Open();
+                this.BluetoothConnection.ReadTimeout = 1500;
+
+                return true;
             }
             catch (Exception ex)
             {
-                return new SerialPort(); 
+                return false;
             }
         }
 
-        public void RightMotor(SerialPort bluetooth)
+        public void RightMotor()
         {
             try
             {
@@ -127,8 +128,8 @@ namespace Bluetooth_NXT.Common
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
-                bluetooth.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
-                bluetooth.Write(Command, 0, Command.Length); // send the message itself
+                this.BluetoothConnection.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+                this.BluetoothConnection.Write(Command, 0, Command.Length); // send the message itself
 
 
                 // retrieve the reply length 
@@ -151,7 +152,7 @@ namespace Bluetooth_NXT.Common
             }
         }
 
-        public void LeftMotor(SerialPort bluetooth)
+        public void LeftMotor()
         {
             try
             {
@@ -161,8 +162,8 @@ namespace Bluetooth_NXT.Common
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
-                bluetooth.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
-                bluetooth.Write(Command, 0, Command.Length); // send the message itself
+                this.BluetoothConnection.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+                this.BluetoothConnection.Write(Command, 0, Command.Length); // send the message itself
 
             }
             catch (Exception ex)
@@ -172,9 +173,8 @@ namespace Bluetooth_NXT.Common
             }
         }
 
-        public void Beep(SerialPort bluetooth)
+        public void Beep()
         {
-
             try
             {
                 //  byte[] MessageLength = { 0x00, 0x00 };
@@ -184,8 +184,8 @@ namespace Bluetooth_NXT.Common
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
-                bluetooth.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
-                bluetooth.Write(Command, 0, Command.Length); // send the message itself
+                this.BluetoothConnection.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+                this.BluetoothConnection.Write(Command, 0, Command.Length); // send the message itself
 
 
                 // retrieve the reply length 

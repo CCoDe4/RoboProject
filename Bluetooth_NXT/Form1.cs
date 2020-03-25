@@ -34,7 +34,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.Beep(bluetooth);
+                roboManager.Beep();
             });
         }
 
@@ -44,7 +44,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.LeftMotor(bluetooth); //In order to turn right, left motor is activated.
+                roboManager.LeftMotor(); //In order to turn right, left motor is activated.
             });
 
         }
@@ -53,7 +53,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.RightMotor(bluetooth); //In order to turn left, right motor is activated.
+                roboManager.RightMotor(); //In order to turn left, right motor is activated.
             });
         }
 
@@ -61,7 +61,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.StopMotors(bluetooth);
+                roboManager.StopMotors();
             });
         }
 
@@ -69,7 +69,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.MoveForwards(bluetooth);
+                roboManager.MoveForwards();
             });
         }
 
@@ -77,15 +77,15 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.MoveBackwards(bluetooth);
+                roboManager.MoveBackwards();
             });
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            bluetooth = roboManager.Connect(bluetooth, portName.Text);
+            bool isConnected = roboManager.Connect(portName.Text);
 
-            if (bluetooth.IsOpen)
+            if (isConnected)
             {
                 lblConnectionStatus.Text = "Connected";
                 lblConnectionStatus.ForeColor = Color.Green;
@@ -101,34 +101,34 @@ namespace Bluetooth_NXT
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!bluetooth.IsOpen) return;
+            if (!roboManager.BluetoothConnection.IsOpen) return;
 
-            roboManager.StopMotors(bluetooth);
+            roboManager.StopMotors();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
          {
-            if (!bluetooth.IsOpen) return; 
+            if (!roboManager.BluetoothConnection.IsOpen) return; 
 
             switch (e.KeyData)
             {
                 case Keys.Up:
-                    roboManager.MoveForwards(bluetooth);
+                    roboManager.MoveForwards();
                     break;
                 case Keys.Down:
-                    roboManager.MoveBackwards(bluetooth);
+                    roboManager.MoveBackwards();
                     break;
                 case Keys.Left:
-                    roboManager.RightMotor(bluetooth);
+                    roboManager.RightMotor();
                     break;
                 case Keys.Right:
-                    roboManager.LeftMotor(bluetooth);
+                    roboManager.LeftMotor();
                     break;
                 case Keys.Space:
-                    roboManager.StopMotors(bluetooth);
+                    roboManager.StopMotors();
                     break;
                 case Keys.Back:
-                    roboManager.Beep(bluetooth);
+                    roboManager.Beep();
                     break;
             }
         }

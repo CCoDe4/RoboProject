@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Xamarin.Forms;
 
 namespace MobileHMI.Droid.BroadcastReceivers
 {
@@ -30,6 +31,7 @@ namespace MobileHMI.Droid.BroadcastReceivers
                 if (newDevice.Name == "NXT")
                 {
                     Toast.MakeText(context, "NXT is found.", ToastLength.Short).Show();
+                    MessagingCenter.Send<BluetoothDevice>(newDevice, "NXT_Robot");
                 }
             }
         }

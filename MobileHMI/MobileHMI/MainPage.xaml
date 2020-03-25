@@ -6,26 +6,20 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        
+
         <Button
-            Text="Scan for devices"
+            Text="Scan for NXT"
             Clicked="ScanForDevices">
-            
+
         </Button>
-        
+
         <Label Text="Welcome to Xamarin Forms!" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
-        
+
         <Label Text="Selected Devices"
                 HorizontalOptions="Center"
                 VerticalOptions="CenterAndExpand"/>
-
-        <Button Text="Connect"
-                VerticalOptions="Center"
-                Clicked="Connect">
-            
-        </Button>
 
     </StackLayout>
 

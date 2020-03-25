@@ -16,15 +16,13 @@ namespace Bluetooth_NXT
 
             portName.Text = "COM3";
 
-            roboManager = new RoboManager();
-            bluetooth = new SerialPort();
+            RoboManager = new RoboManager();
+            RoboManager.BluetoothConnection = new SerialPort();
             this.ActiveControl = null;
-            
+
         }
 
-        public RoboManager roboManager { get; set; }
-        private SerialPort bluetooth { get; set; }
-
+        public RoboManager RoboManager { get; set; }
         /// <summary>
         /// makes the NXT beep
         /// </summary>
@@ -34,7 +32,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.Beep();
+                RoboManager.Beep();
             });
         }
 
@@ -44,7 +42,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.LeftMotor(); //In order to turn right, left motor is activated.
+                RoboManager.LeftMotor(); //In order to turn right, left motor is activated.
             });
 
         }
@@ -53,7 +51,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.RightMotor(); //In order to turn left, right motor is activated.
+                RoboManager.RightMotor(); //In order to turn left, right motor is activated.
             });
         }
 
@@ -61,7 +59,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.StopMotors();
+                RoboManager.StopMotors();
             });
         }
 
@@ -69,7 +67,7 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.MoveForwards();
+                RoboManager.MoveForwards();
             });
         }
 
@@ -77,13 +75,13 @@ namespace Bluetooth_NXT
         {
             await Task.Run(() =>
             {
-                roboManager.MoveBackwards();
+                RoboManager.MoveBackwards();
             });
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            bool isConnected = roboManager.Connect(portName.Text);
+            bool isConnected = RoboManager.Connect(portName.Text);
 
             if (isConnected)
             {
@@ -101,34 +99,34 @@ namespace Bluetooth_NXT
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!roboManager.BluetoothConnection.IsOpen) return;
+            if (!RoboManager.BluetoothConnection.IsOpen) return;
 
-            roboManager.StopMotors();
+            RoboManager.StopMotors();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
-         {
-            if (!roboManager.BluetoothConnection.IsOpen) return; 
+        {
+            if (!RoboManager.BluetoothConnection.IsOpen) return;
 
             switch (e.KeyData)
             {
                 case Keys.Up:
-                    roboManager.MoveForwards();
+                    RoboManager.MoveForwards();
                     break;
                 case Keys.Down:
-                    roboManager.MoveBackwards();
+                    RoboManager.MoveBackwards();
                     break;
                 case Keys.Left:
-                    roboManager.RightMotor();
+                    RoboManager.RightMotor();
                     break;
                 case Keys.Right:
-                    roboManager.LeftMotor();
+                    RoboManager.LeftMotor();
                     break;
                 case Keys.Space:
-                    roboManager.StopMotors();
+                    RoboManager.StopMotors();
                     break;
                 case Keys.Back:
-                    roboManager.Beep();
+                    RoboManager.Beep();
                     break;
             }
         }

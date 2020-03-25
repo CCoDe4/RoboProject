@@ -6,9 +6,27 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
+        
+        <Button
+            Text="Scan for devices"
+            Clicked="ScanForDevices">
+            
+        </Button>
+        
+        <Label Text="Welcome to Xamarin Forms!" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
+        
+        <Label Text="Selected Devices"
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand"/>
+
+        <Button Text="Connect"
+                VerticalOptions="Center"
+                Clicked="Connect">
+            
+        </Button>
+
     </StackLayout>
 
 </ContentPage>

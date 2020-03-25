@@ -20,6 +20,18 @@ namespace MobileHMI.Droid.BroadcastReceivers
         public override void OnReceive(Context context, Intent intent)
         {
             Toast.MakeText(context, "Received intent!", ToastLength.Short).Show();
+
+            string action = intent.Action;
+
+            if (action == BluetoothDevice.ActionFound)
+            {
+                BluetoothDevice newDevice = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
+
+                if (newDevice.Name == "NXT")
+                {
+                    Toast.MakeText(context, "NXT is found.", ToastLength.Short).Show();
+                }
+            }
         }
     }
 }

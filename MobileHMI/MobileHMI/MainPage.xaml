@@ -9,11 +9,12 @@
 
         <Button
             Text="Scan for NXT"
-            Clicked="ScanForDevices">
+            Clicked="ScanForDevices_Clicked">
         </Button>
 
         <Label Text="Disconnected"
-               TextColor="Red"/>
+               TextColor="Red"
+               x:Name="lblConnectionStatus"/>
 
         <StackLayout VerticalOptions="CenterAndExpand">
             <StackLayout 
@@ -32,10 +33,16 @@
                 <Button Text="Right"/>
 
             </StackLayout>
+            
             <Button BackgroundColor="Red"
                     TextColor="White"
-                    Text="STOP"
-                    Clicked="ScanForDevices">
+                    Text="STOP">
+            </Button>
+
+            <Button Text="Beep"
+                    VerticalOptions="End"
+                    Clicked="Beep_Clicked">
+               
             </Button>
         </StackLayout>
 

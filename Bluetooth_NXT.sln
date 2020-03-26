@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.438
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bluetooth_NXT", "Bluetooth_NXT\Bluetooth_NXT.csproj", "{CD0F35EB-93F8-4AF3-8520-F8272651A327}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileHMI.Android", "MobileHMI\MobileHMI.Android\MobileHMI.Android.csproj", "{FA281636-CE5F-47A3-9791-9059C7DD245C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileHMI", "MobileHMI\MobileHMI\MobileHMI.csproj", "{1EEB9154-B0EF-469C-B0EE-D69B449E34E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileHMI", "MobileHMI\MobileHMI\MobileHMI.csproj", "{1EEB9154-B0EF-469C-B0EE-D69B449E34E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

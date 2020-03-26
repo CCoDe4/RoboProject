@@ -21,22 +21,31 @@
                          HorizontalOptions="Center"
                          VerticalOptions="CenterAndExpand">
 
-                <Button Text="Up"/>
+                <Button Text="Up"
+                        Pressed="Up_Clicked"
+                        Released="Stop_Clicked"/>
 
             </StackLayout>
             <StackLayout 
                 HorizontalOptions="Center"
                 Orientation="Horizontal">
 
-                <Button Text="Left"/>
-                <Button Text="Down"/>
-                <Button Text="Right"/>
+                <Button Text="Left"
+                        Pressed="Left_Clicked"
+                        Released="Stop_Clicked"/>
+                <Button Text="Down"
+                        Pressed="Down_Clicked"
+                        Released="Stop_Clicked"/>
+                <Button Text="Right"
+                        Pressed="Right_Clicked"
+                        Released="Stop_Clicked"/>
 
             </StackLayout>
             
             <Button BackgroundColor="Red"
                     TextColor="White"
-                    Text="STOP">
+                    Text="STOP"
+                    Clicked="Stop_Clicked">
             </Button>
 
             <Button Text="Beep"

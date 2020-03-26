@@ -12,13 +12,13 @@ namespace MobileHMI
 {
     public partial class MainPage : ContentPage
     {
-        public MobileRoboManager RoboManager; 
+        public MobileRoboManager RoboManager;
         public MainPage()
         {
             InitializeComponent();
             RoboManager = new MobileRoboManager();
 
-            MessagingCenter.Subscribe<BluetoothDevice>(this, "NXT_Robot", (sender) => 
+            MessagingCenter.Subscribe<BluetoothDevice>(this, "NXT_Robot", (sender) =>
             {
                 ConnectToDevice(sender);
             });
@@ -55,8 +55,10 @@ namespace MobileHMI
             {
                 throw;
             }
-                  
+
         }
+
+        #region Events
 
         private void ScanForDevices_Clicked(object sender, EventArgs e)
         {
@@ -68,7 +70,7 @@ namespace MobileHMI
                 {
                     adapter.StartDiscovery();
                 }
-            });         
+            });
         }
 
         private void Beep_Clicked(object sender, EventArgs e)
@@ -77,5 +79,41 @@ namespace MobileHMI
 
             RoboManager.Beep();
         }
+
+        private void Stop_Clicked(object sender, EventArgs e)
+        {
+            if (!RoboManager.IsConnected) return;
+
+            RoboManager.StopMotors();
+        }
+
+        private void Up_Clicked(object sender, EventArgs e)
+        {
+            if (!RoboManager.IsConnected) return;
+
+            RoboManager.MoveForwards();
+        }
+
+        private void Down_Clicked(object sender, EventArgs e)
+        {
+            if (!RoboManager.IsConnected) return;
+
+            RoboManager.MoveBackwards();
+        }
+
+        private void Right_Clicked(object sender, EventArgs e)
+        {
+            if (!RoboManager.IsConnected) return;
+
+            RoboManager.LeftMotor();
+        }
+
+        private void Left_Clicked(object sender, EventArgs e)
+        {
+            if (!RoboManager.IsConnected) return;
+
+            RoboManager.RightMotor();
+        }
+        #endregion
     }
 }

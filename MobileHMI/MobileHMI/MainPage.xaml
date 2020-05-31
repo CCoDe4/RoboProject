@@ -7,16 +7,34 @@
     <StackLayout>
         <!-- Place new controls here -->
 
-        <Button
-            Text="Scan for NXT"
-            Clicked="ScanForDevices_Clicked">
-        </Button>
+        <StackLayout x:Name="ConnectionInitializer">
+            
+            <Button Text="Scan for NXT"
+                    Clicked="ScanForDevices_Clicked"/>
 
-        <Label Text="Disconnected"
+            <Label Text="Disconnected"
                TextColor="Red"
                x:Name="lblConnectionStatus"/>
 
-        <StackLayout VerticalOptions="CenterAndExpand">
+        </StackLayout>
+
+        <StackLayout x:Name="ModeSwitch">
+
+            <Switch x:Name="ModeToggle"
+                    IsToggled="false"
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand" 
+                    Toggled="ModeSwitch_Toggled"/>
+
+
+            <Label Text="Feedback control"                   
+                   HorizontalOptions="Center"
+                   VerticalOptions="EndAndExpand" />
+        </StackLayout>
+
+        <StackLayout 
+            x:Name="RealTimeControlPanel"
+            VerticalOptions="CenterAndExpand">
             <StackLayout 
                          HorizontalOptions="Center"
                          VerticalOptions="CenterAndExpand">
@@ -41,7 +59,7 @@
                         Released="Stop_Clicked"/>
 
             </StackLayout>
-            
+
             <Button BackgroundColor="Red"
                     TextColor="White"
                     Text="STOP"
@@ -51,7 +69,28 @@
             <Button Text="Beep"
                     VerticalOptions="End"
                     Clicked="Beep_Clicked">
+
+            </Button>
+        </StackLayout>
+        
+        <StackLayout x:Name="RegulatorControl"
+                     VerticalOptions="CenterAndExpand"
+                     IsVisible="False">
+
+            <Button Text="Run motor"
+                    Clicked="Button_Clicked">
                
+            </Button>
+
+            <Button Text="State"
+                    Clicked="Button_Clicked_1">
+
+            </Button>
+
+            <Button BackgroundColor="Red"
+                    TextColor="White"
+                    Text="STOP"
+                    Clicked="Stop_Clicked">
             </Button>
         </StackLayout>
 

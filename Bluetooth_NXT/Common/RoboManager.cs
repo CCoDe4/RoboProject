@@ -44,18 +44,21 @@ namespace Bluetooth_NXT.Common
                 this.BluetoothConnection.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
                 this.BluetoothConnection.Write(Command, 0, Command.Length); // send the message itself
 
+                //retrieve the reply length
+                //string response = string.Empty;
 
-                // retrieve the reply length 
+
                 //if (Command[0] == 0x80)
                 //{
-                //    int length =
-                //   BluetoothConnection.ReadByte() + 256 * BluetoothConnection.ReadByte();
 
-                //    retrieve the reply data
+                //    int length = BluetoothConnection.ReadByte() + 256 * BluetoothConnection.ReadByte();
+                    
+                //    //retrieve the reply data
                 //    for (int i = 0; i < length; i++)
                 //    {
-                //        responseBox.Text += BluetoothConnection.ReadByte().ToString("X2") + " ";
+                //        response += BluetoothConnection.ReadByte().ToString("X2") + " ";
                 //    }
+
                 //}
 
             }

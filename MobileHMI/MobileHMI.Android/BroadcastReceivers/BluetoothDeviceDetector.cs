@@ -26,7 +26,8 @@ namespace MobileHMI.Droid.BroadcastReceivers
 
             if (action == BluetoothDevice.ActionFound)
             {
-                BluetoothDevice newDevice = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
+                BluetoothDevice newDevice = (BluetoothDevice)intent.
+                    GetParcelableExtra(BluetoothDevice.ExtraDevice);
 
                 if (newDevice.Name == "NXT")
                 {

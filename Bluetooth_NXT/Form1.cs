@@ -93,7 +93,7 @@ namespace Bluetooth_NXT
                 lblConnectionStatus.Text = "Disconnected";
                 lblConnectionStatus.ForeColor = Color.Red;
 
-                MessageBox.Show("Check if robot is ON or the bluetooth device", "ERROR");
+                MessageBox.Show("Check if robot is ON or the bluetooth device" , "ERROR");
             }
         }
 

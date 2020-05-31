@@ -13,10 +13,12 @@ namespace MobileHMI
     public partial class MainPage : ContentPage
     {
         public MobileRoboManager RoboManager;
+        public Regulator Regulator;
         public MainPage()
         {
             InitializeComponent();
             RoboManager = new MobileRoboManager();
+            Regulator = new Regulator();
 
             MessagingCenter.Subscribe<BluetoothDevice>(this, "NXT_Robot", (sender) =>
             {
@@ -44,6 +46,9 @@ namespace MobileHMI
                 {
                     lblConnectionStatus.Text = "Connected";
                     lblConnectionStatus.TextColor = Color.Green;
+
+                    Regulator.BluetoothConnection = RoboManager.BluetoothConnection;
+                    Regulator.IsConnected = RoboManager.IsConnected;
                 }
                 else
                 {
@@ -114,6 +119,42 @@ namespace MobileHMI
 
             RoboManager.RightMotor();
         }
+
         #endregion
+
+        private void ModeSwitch_Toggled(object sender, ToggledEventArgs e)
+        {
+            if (ModeToggle.IsToggled)
+            {
+                RealTimeControlPanel.IsVisible = false;
+                RegulatorControl.IsVisible = true;
+            }
+            else
+            {
+                RealTimeControlPanel.IsVisible = true;
+                RegulatorControl.IsVisible = false;
+            }
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                RoboManager.MoveForwards();
+
+            });
+        }
+
+        private void Button_Clicked_1(object sender, EventArgs e)
+        {
+
+            string resp = Regulator.GetState();
+            
+            string[] words = resp.Split(' ');
+
+            var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);            
+            var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);
+            ;
+        }
     }
 }

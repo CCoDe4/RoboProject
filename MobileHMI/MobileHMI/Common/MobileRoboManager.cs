@@ -13,7 +13,7 @@ namespace MobileHMI.Common
 
         public MobileRoboManager()
         {
-           
+
         }
 
         public void StopMotors()
@@ -40,28 +40,17 @@ namespace MobileHMI.Common
             try
             {
                 byte[] MessageLength = { 0x0C, 0x00 };
-                //byte[] Command = { 0x6d, 0x6f, 0x74, 0x6f, 0x72, 0xC0, 0x80};
-                byte[] Command = { 0x80, 0x04, 0xFF, 0x64, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 }; //test
-
+                byte[] Command = { 0x80, 0x04, 0xFF, 0xCE, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 }; //test
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
-                this.BluetoothConnection.OutputStream.Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
-                this.BluetoothConnection.OutputStream.Write(Command, 0, Command.Length); // send the message itself
+                this.BluetoothConnection
+                    .OutputStream
+                    .Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
 
-
-                // retrieve the reply length 
-                //if (Command[0] == 0x80)
-                //{
-                //    int length =
-                //   BluetoothConnection.ReadByte() + 256 * BluetoothConnection.ReadByte();
-
-                //    retrieve the reply data
-                //    for (int i = 0; i < length; i++)
-                //    {
-                //        responseBox.Text += BluetoothConnection.ReadByte().ToString("X2") + " ";
-                //    }
-                //}
+                this.BluetoothConnection
+                    .OutputStream
+                    .Write(Command, 0, Command.Length); // send the message itself
 
             }
             catch (Exception ex)
@@ -77,7 +66,7 @@ namespace MobileHMI.Common
             {
                 byte[] MessageLength = { 0x0C, 0x00 };
                 //byte[] Command = { 0x6d, 0x6f, 0x74, 0x6f, 0x72, 0xC0, 0x80};
-                byte[] Command = { 0x80, 0x04, 0xFF, 0xCE, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 }; //test
+                byte[] Command = { 0x80, 0x04, 0xFF, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 }; //test
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
@@ -109,8 +98,10 @@ namespace MobileHMI.Common
         {
             try
             {
-               this.BluetoothConnection = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));//Note that the UUID specified below is the standard UUID for SPP
-               this.BluetoothConnection.Connect();
+                //Note that the UUID specified below is the standard UUID for SPP
+                this.BluetoothConnection = device.
+                    CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
+                this.BluetoothConnection.Connect();
 
                 this.IsConnected = true;
 

@@ -3,6 +3,7 @@ using Java.Util;
 using MobileHMI.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -147,14 +148,35 @@ namespace MobileHMI
 
         private void Button_Clicked_1(object sender, EventArgs e)
         {
+            Test();
 
-            string resp = Regulator.GetState();
+            //string resp = Regulator.GetState();
             
-            string[] words = resp.Split(' ');
+            //string[] words = resp.Split(' ');
 
-            var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);            
-            var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);
+            //var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);   //215         
+            //var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);//14
+
             ;
+        }
+
+        private void Test()
+        {
+            while (true)
+            {
+                string resp = Regulator.GetState();
+
+                string[] words = resp.Split(' ');
+
+                var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);   //215         
+                var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);//14
+                var num3 = int.Parse(words[23], System.Globalization.NumberStyles.HexNumber);//14
+                var num4 = int.Parse(words[24], System.Globalization.NumberStyles.HexNumber);//14
+
+              
+                Debug.WriteLine(num1.ToString() + " " + num2.ToString() + " " + num3.ToString() + " " + num4.ToString());
+
+            }
         }
     }
 }

@@ -148,14 +148,14 @@ namespace MobileHMI
 
         private void Button_Clicked_1(object sender, EventArgs e)
         {
-            Test();
+            //Test();
 
-            //string resp = Regulator.GetState();
+            string resp = Regulator.GetState();
             
-            //string[] words = resp.Split(' ');
+            string[] words = resp.Split(' ');
 
-            //var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);   //215         
-            //var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);//14
+            var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);   //215         
+            var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);//14
 
             ;
         }

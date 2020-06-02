@@ -1,6 +1,7 @@
 ﻿using Android.Bluetooth;
 using Java.Util;
 using MobileHMI.Common;
+using MobileHMI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace MobileHMI
     {
         public MobileRoboManager RoboManager;
         public Regulator Regulator;
+        List<string> Metrics = new List<string>() { Constants.meter, Constants.centimeter};
         public MainPage()
         {
             InitializeComponent();
@@ -25,6 +27,9 @@ namespace MobileHMI
             {
                 ConnectToDevice(sender);
             });
+
+            DistancePicker.ItemsSource = Metrics;
+            DistancePicker.SelectedItem = Metrics[0];
         }
 
         //public void StartScan()
@@ -176,6 +181,14 @@ namespace MobileHMI
               
                 Debug.WriteLine(num1.ToString() + " " + num2.ToString() + " " + num3.ToString() + " " + num4.ToString());
 
+            }
+        }
+
+        private void SetDistance_Clicked(object sender, EventArgs e)
+        {
+            if ()
+            {
+                Regulator.TargetDistance = int.Parse(distanceBox.Text);
             }
         }
     }

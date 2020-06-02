@@ -20,7 +20,7 @@ namespace MobileHMI.Droid.BroadcastReceivers
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            Toast.MakeText(context, "Received intent!", ToastLength.Short).Show();
+            //Toast.MakeText(context, "Received intent!", ToastLength.Short).Show();
 
             string action = intent.Action;
 

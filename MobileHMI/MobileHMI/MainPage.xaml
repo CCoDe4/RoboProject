@@ -8,7 +8,7 @@
         <!-- Place new controls here -->
 
         <StackLayout x:Name="ConnectionInitializer">
-            
+
             <Button Text="Scan for NXT"
                     Clicked="ScanForDevices_Clicked"/>
 
@@ -72,12 +72,28 @@
 
             </Button>
         </StackLayout>
-        
+
         <StackLayout x:Name="RegulatorControl"
                      VerticalOptions="CenterAndExpand"
                      IsVisible="False">
+            
+            <StackLayout Orientation="Horizontal">
 
-            <Button Text="Run motor"
+                <Entry Text="Distance"
+                       WidthRequest="200"
+                       x:Name="distanceBox"
+                       HorizontalOptions="CenterAndExpand"/>
+
+                <Picker HorizontalOptions="CenterAndExpand"
+                        WidthRequest="50"
+                        x:Name="DistancePicker"/>
+
+            </StackLayout>
+
+            <Button Text="Set"
+                    x:Name="btnSetDistance"
+                    Clicked="SetDistance_Clicked"/>
+            <!--<Button Text="Run motor"
                     Clicked="Button_Clicked">
                
             </Button>
@@ -91,7 +107,7 @@
                     TextColor="White"
                     Text="STOP"
                     Clicked="Stop_Clicked">
-            </Button>
+            </Button>-->
         </StackLayout>
 
     </StackLayout>

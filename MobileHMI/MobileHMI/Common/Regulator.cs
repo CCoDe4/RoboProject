@@ -1,4 +1,5 @@
 ﻿using Android.Bluetooth;
+using MobileHMI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,8 @@ namespace MobileHMI.Common
     {
         public BluetoothSocket BluetoothConnection { get; set; }
         public bool IsConnected { get; set; }
+
+        public int TargetDistance { get; set; }
 
         public string GetState()
         {
@@ -41,18 +44,13 @@ namespace MobileHMI.Common
                         response += BluetoothConnection.InputStream.ReadByte().ToString("X2") + " ";
                     }
 
-                    if (!string.IsNullOrEmpty(response))
-                    {
-                        return response;
-                    }
+                    if (!string.IsNullOrEmpty(response))                    
+                        return response;                    
                     else
-                    {
-                        return "error";
-                    }
-
+                        return Constants.error;
                 }
 
-                return "error";
+                return Constants.error;
 
             }
             catch (Exception ex)

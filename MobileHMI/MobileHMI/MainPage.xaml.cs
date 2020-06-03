@@ -16,7 +16,7 @@ namespace MobileHMI
     {
         public MobileRoboManager RoboManager;
         public Regulator Regulator;
-        List<string> Metrics = new List<string>() { Constants.meter, Constants.centimeter};
+        List<string> Metrics = new List<string>() { Constants.meter, Constants.centimeter };
         public MainPage()
         {
             InitializeComponent();
@@ -156,7 +156,7 @@ namespace MobileHMI
             //Test();
 
             string resp = Regulator.GetState();
-            
+
             string[] words = resp.Split(' ');
 
             var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);   //215         
@@ -178,7 +178,7 @@ namespace MobileHMI
                 var num3 = int.Parse(words[23], System.Globalization.NumberStyles.HexNumber);//14
                 var num4 = int.Parse(words[24], System.Globalization.NumberStyles.HexNumber);//14
 
-              
+
                 Debug.WriteLine(num1.ToString() + " " + num2.ToString() + " " + num3.ToString() + " " + num4.ToString());
 
             }
@@ -186,10 +186,15 @@ namespace MobileHMI
 
         private void SetDistance_Clicked(object sender, EventArgs e)
         {
-            if ()
-            {
+            if (!Regulator.IsConnected) return;
+
+            if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
+                Regulator.TargetDistance = int.Parse(distanceBox.Text) * 100;
+            else
                 Regulator.TargetDistance = int.Parse(distanceBox.Text);
-            }
+
+            Regulator.Run();
+
         }
     }
 }

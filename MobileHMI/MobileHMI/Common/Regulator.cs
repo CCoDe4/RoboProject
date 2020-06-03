@@ -2,18 +2,40 @@
 using MobileHMI.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Timers;
 
 namespace MobileHMI.Common
 {
     public class Regulator
     {
+        private int currentDistance;
+        private const double wheelCircumference = 17.59291886010284; //cm
+
+        public Regulator()
+        {            
+           
+        }
+
         public BluetoothSocket BluetoothConnection { get; set; }
+
         public bool IsConnected { get; set; }
 
         public int TargetDistance { get; set; }
 
-        public string GetState()
+        public int Kp { get; set; } = 1;
+        public int Ki { get; set; } = 0;
+        public int Kd { get; set; } = 0;
+
+        public Timer Timer { get; set; } //100ms
+
+        public void Run()
+        {
+            RunTimer();
+        }
+      
+        private string GetState()
         {
             try
             {
@@ -58,5 +80,32 @@ namespace MobileHMI.Common
                 return "error";
             }
         }
+
+        private void RunTimer()
+        {
+            this.Timer = new Timer();
+            Timer.Interval = 100; //ms
+            this.Timer.Elapsed += OnTimedEvent;
+
+            this.Timer.Start();
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            var response = GetState().ToList();
+            byte[] responseBytes = new byte[4];
+
+            //2 motors
+
+            for (int i = 0; i < responseBytes.Length; i++)
+            {
+                responseBytes[i] = byte.Parse(response[21 + i].ToString(), System.Globalization.NumberStyles.HexNumber);
+                
+            }
+
+            var encoderImpulses = BitConverter.ToInt32(responseBytes, 0);
+
+        }
+
     }
 }

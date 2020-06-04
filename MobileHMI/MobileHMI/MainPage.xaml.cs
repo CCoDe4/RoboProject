@@ -17,11 +17,12 @@ namespace MobileHMI
         public MobileRoboManager RoboManager;
         public Regulator Regulator;
         List<string> Metrics = new List<string>() { Constants.meter, Constants.centimeter };
+
         public MainPage()
         {
             InitializeComponent();
             RoboManager = new MobileRoboManager();
-            Regulator = new Regulator();
+            Regulator = new Regulator(RoboManager);
 
             MessagingCenter.Subscribe<BluetoothDevice>(this, "NXT_Robot", (sender) =>
             {
@@ -53,8 +54,8 @@ namespace MobileHMI
                     lblConnectionStatus.Text = "Connected";
                     lblConnectionStatus.TextColor = Color.Green;
 
-                    Regulator.BluetoothConnection = RoboManager.BluetoothConnection;
-                    Regulator.IsConnected = RoboManager.IsConnected;
+                    //Regulator.BluetoothConnection = RoboManager.BluetoothConnection;
+                    //Regulator.IsConnected = RoboManager.IsConnected;
                 }
                 else
                 {
@@ -151,42 +152,10 @@ namespace MobileHMI
             });
         }
 
-        private void Button_Clicked_1(object sender, EventArgs e)
-        {
-            //Test();
-
-            string resp = Regulator.GetState();
-
-            string[] words = resp.Split(' ');
-
-            var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);   //215         
-            var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);//14
-
-            ;
-        }
-
-        private void Test()
-        {
-            while (true)
-            {
-                string resp = Regulator.GetState();
-
-                string[] words = resp.Split(' ');
-
-                var num1 = int.Parse(words[21], System.Globalization.NumberStyles.HexNumber);   //215         
-                var num2 = int.Parse(words[22], System.Globalization.NumberStyles.HexNumber);//14
-                var num3 = int.Parse(words[23], System.Globalization.NumberStyles.HexNumber);//14
-                var num4 = int.Parse(words[24], System.Globalization.NumberStyles.HexNumber);//14
-
-
-                Debug.WriteLine(num1.ToString() + " " + num2.ToString() + " " + num3.ToString() + " " + num4.ToString());
-
-            }
-        }
-
+   
         private void SetDistance_Clicked(object sender, EventArgs e)
         {
-            if (!Regulator.IsConnected) return;
+            if (!RoboManager.IsConnected) return;
 
             if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
                 Regulator.TargetDistance = int.Parse(distanceBox.Text) * 100;

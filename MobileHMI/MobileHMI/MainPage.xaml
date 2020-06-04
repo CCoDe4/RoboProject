@@ -79,7 +79,7 @@
             
             <StackLayout Orientation="Horizontal">
 
-                <Entry Text="Distance"
+                <Entry Text="1"
                        WidthRequest="200"
                        x:Name="distanceBox"
                        HorizontalOptions="CenterAndExpand"/>

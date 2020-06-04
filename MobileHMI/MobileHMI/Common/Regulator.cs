@@ -13,8 +13,8 @@ namespace MobileHMI.Common
 {
     public class Regulator
     {
-        private double currentDistance;
-        private const double wheelCircumference = 17.59291886010284; //cm
+     
+        private const double WHEEL_CIRCUMFERENCE = 17.59291886010284; //cm
         private IRoboManager _roboManager;
 
         public Regulator(IRoboManager roboManager)
@@ -35,7 +35,8 @@ namespace MobileHMI.Common
         public void Run()
         {
             _roboManager.MoveForwards();
-            RunTimer();
+            StopAfterTargetDistance();
+            //RunTimer();
         }
 
         private void RunTimer()
@@ -77,18 +78,18 @@ namespace MobileHMI.Common
 
                 var encoderImpulses = BitConverter.ToInt32(responseBytes, 0);
                 double numberOfRotations = encoderImpulses / 360.00;
-                currentDistance = numberOfRotations * wheelCircumference;
+                //currentDistance = numberOfRotations * wheelCircumference;
 
-                if (currentDistance >= this.TargetDistance)
-                {
-                    _roboManager.StopMotors();
-                    var a = 1;
-                }
-                else
-                {
-                    this.Timer.Start();
+                //if (currentDistance >= this.TargetDistance)
+                //{
+                //    _roboManager.StopMotors();
+                //    var a = 1;
+                //}
+                //else
+                //{
+                //    this.Timer.Start();
 
-                }
+                //}
 
                 test.Stop();
                 ;
@@ -96,5 +97,51 @@ namespace MobileHMI.Common
 
         }
 
+        private void StopAfterTargetDistance()
+        {
+            bool shouldRun = true;
+            double totalDistance = 0.00;
+            double currentDistance = 0.00;
+
+            while (shouldRun)
+            {
+                currentDistance = GetDistance() - totalDistance;
+                Debug.WriteLine("Current distance: " + currentDistance);
+
+                totalDistance += currentDistance;
+                Debug.WriteLine("totalDistance Distance: " + totalDistance);
+
+                shouldRun = totalDistance >= this.TargetDistance ? false : true;
+                Debug.WriteLine("Should run: " + shouldRun);
+            }
+
+            
+            _roboManager.StopMotors();
+            string test = _roboManager.ResetMotors();
+
+            _roboManager.StopMotors();
+        }
+
+        private double GetDistance()
+        {
+            var response = _roboManager.GetState();
+
+            if (response == Constants.error)
+                return 0;
+
+            var formatedResponse = response.Split(' ');
+            byte[] responseBytes = new byte[4];
+
+            //2 motors
+            for (int i = 0; i < responseBytes.Length; i++)
+            {
+                responseBytes[i] = byte.Parse(formatedResponse[21 + i].ToString(), System.Globalization.NumberStyles.HexNumber);
+            }
+
+            var encoderImpulses = BitConverter.ToInt32(responseBytes, 0);
+            double numberOfRotations = encoderImpulses / 360.00;
+
+            return numberOfRotations * WHEEL_CIRCUMFERENCE;
+        }
     }
 }

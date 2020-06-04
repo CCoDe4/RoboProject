@@ -245,8 +245,51 @@ namespace MobileHMI.Common
             }
             catch (Exception ex)
             {
-                return "error";
+                return Constants.error;
             }
+        }
+
+        public string ResetMotors()
+        {
+            try
+            {
+                byte[] MessageLength = { 0x04, 0x00 };
+                byte[] Command = { 0x00, 0x0A, 0x00, 0x00 };
+
+                this.BluetoothConnection
+                        .OutputStream
+                        .Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+
+                this.BluetoothConnection
+                    .OutputStream
+                    .Write(Command, 0, Command.Length); // send the message itself
+
+                if (Command[0] == 0x00)
+                {
+                    int length =
+                        BluetoothConnection.InputStream.ReadByte() + 256 * BluetoothConnection.InputStream.ReadByte();
+
+                    string response = string.Empty;
+
+                    //retrieve the reply data
+                    for (int i = 0; i < length; i++)
+                    {
+                        response += BluetoothConnection.InputStream.ReadByte().ToString("X2") + " ";
+                    }
+
+                    if (!string.IsNullOrEmpty(response))
+                        return response;
+                    else
+                        return Constants.error;
+                }
+
+                return Constants.error;
+            }
+            catch (Exception)
+            {
+                return Constants.error;
+            }
+           
         }
     }
 }

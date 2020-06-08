@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -26,31 +27,32 @@ namespace MobileHMI.Common
 
         public int TargetDistance { get; set; }
 
-        public double Kp { get; set; } = 1.2;
-        public double Ki { get; set; } = 0.00;
+        public double Kp { get; set; } = 5;
+        public double Ki { get; set; } = 0.1;
         public double Kd { get; set; } = 0.15;
 
-        public Timer Timer { get; set; } //100ms
+       // public Timer Timer { get; set; } //100ms
 
         public void Run()
         {
-            _roboManager.MoveForwards();
-            StopAfterTargetDistance();
+            //_roboManager.MoveForwards();
+            //StopAfterTargetDistance();
+            PID();
             //RunTimer();
         }
 
         private void RunTimer()
         {
-            this.Timer = new Timer();
-            Timer.Interval = 500; //ms
-            this.Timer.Elapsed += OnTimedEvent;
+            //this.Timer = new Timer();
+            //Timer.Interval = 500; //ms
+            //this.Timer.Elapsed += OnTimedEvent;
 
-            this.Timer.Start();
+            //this.Timer.Start();
         }
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            this.Timer.Stop();
+            //this.Timer.Stop();
 
             //var thread =
             Task.Run(() =>
@@ -132,15 +134,41 @@ namespace MobileHMI.Common
         {
             double currentDistance = 0.00;
             double integrator = 0.00;
-            double Ts = 0.1;
+            int Ts = 100;
+            double error = (TargetDistance - currentDistance);
+            double voltageToMotors = 50;
+            bool shouldRun = true;
+            double totalDistance = 0.00;
+            byte sendVoltage = 0; 
 
             while (true)
             {
-                currentDistance = GetDistance();
-                var input = Kp + Ki * (integrator + (TargetDistance - currentDistance)); // example calculation input = 20cm
+                sendVoltage = (byte)voltageToMotors; //cast при отрицателен знак
+                _roboManager.Move(sendVoltage);
+                currentDistance = GetDistance() - totalDistance;
+                
+                totalDistance += currentDistance;
+                error = (TargetDistance - totalDistance);
+                voltageToMotors = Kp * error + Ki * integrator; 
 
-                integrator = integrator + (TargetDistance - currentDistance) * Ts;
-            }            
+
+                Debug.WriteLine("totalDistance Distance: " + totalDistance + "Voltage: " + sendVoltage);
+
+                if (voltageToMotors > 95)
+                {
+                    voltageToMotors = 95;
+                }
+
+                if (voltageToMotors < -95)
+                {
+                    voltageToMotors = -95; 
+                }
+                integrator = integrator + error * 0.1;
+
+                Thread.Sleep(Ts);
+
+                shouldRun = totalDistance >= this.TargetDistance ? false : true;
+            }
         }
 
         private void ClearDifference(double difference)

@@ -16,5 +16,7 @@ namespace MobileHMI.Interfaces
         void StopMotors();
         string ResetMotors();
         string GetState();
+
+        void Move(byte test);
     }
 }

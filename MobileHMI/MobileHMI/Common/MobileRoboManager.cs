@@ -60,6 +60,31 @@ namespace MobileHMI.Common
 
         }
 
+        public void Move(byte speed)
+        {
+            try
+            {
+                byte[] MessageLength = { 0x0C, 0x00 };
+                byte[] Command = { 0x80, 0x04, 0xFF, speed, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 }; //test
+
+                MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
+
+                this.BluetoothConnection
+                    .OutputStream
+                    .Write(MessageLength, 0, MessageLength.Length); //send the 2 bytes header 
+
+                this.BluetoothConnection
+                    .OutputStream
+                    .Write(Command, 0, Command.Length); // send the message itself
+
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+
+        }
+
         public void MoveBackwards()
         {
             try

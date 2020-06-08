@@ -26,9 +26,9 @@ namespace MobileHMI.Common
 
         public int TargetDistance { get; set; }
 
-        public int Kp { get; set; } = 1;
-        public int Ki { get; set; } = 0;
-        public int Kd { get; set; } = 0;
+        public double Kp { get; set; } = 1.2;
+        public double Ki { get; set; } = 0.00;
+        public double Kd { get; set; } = 0.15;
 
         public Timer Timer { get; set; } //100ms
 
@@ -115,11 +115,38 @@ namespace MobileHMI.Common
                 Debug.WriteLine("Should run: " + shouldRun);
             }
 
-            
             _roboManager.StopMotors();
+
+            //if (totalDistance > this.TargetDistance)
+            //{
+            //    double difference = totalDistance - this.TargetDistance;
+
+            //    ClearDifference(totalDistance);
+            //}
             string test = _roboManager.ResetMotors();
 
             _roboManager.StopMotors();
+        }
+
+        private void PID()
+        {
+            double currentDistance = 0.00;
+            double integrator = 0.00;
+            double Ts = 0.1;
+
+            while (true)
+            {
+                currentDistance = GetDistance();
+                var input = Kp + Ki * (integrator + (TargetDistance - currentDistance)); // example calculation input = 20cm
+
+                integrator = integrator + (TargetDistance - currentDistance) * Ts;
+            }            
+        }
+
+        private void ClearDifference(double difference)
+        {
+            return;
+             
         }
 
         private double GetDistance()

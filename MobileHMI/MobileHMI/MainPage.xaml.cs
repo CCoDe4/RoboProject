@@ -17,6 +17,8 @@ namespace MobileHMI
         public MobileRoboManager RoboManager;
         public Regulator Regulator;
         List<string> Metrics = new List<string>() { Constants.meter, Constants.centimeter };
+        Task relay;
+        Task PID;
 
         public MainPage()
         {
@@ -74,6 +76,8 @@ namespace MobileHMI
 
         private void ScanForDevices_Clicked(object sender, EventArgs e)
         {
+            lblConnectionStatus.Text = "Trying to connect";
+
             Task.Run(() =>
             {
                 BluetoothAdapter adapter = BluetoothAdapter.DefaultAdapter;
@@ -152,18 +156,41 @@ namespace MobileHMI
             });
         }
 
-   
-        private void SetDistance_Clicked(object sender, EventArgs e)
+
+        private void PID_Clicked(object sender, EventArgs e)
+        {           
+            PID = Task.Run(() =>
+            {
+                if (!RoboManager.IsConnected) return;
+
+                if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
+                    Regulator.TargetDistance = int.Parse(distanceBox.Text) * 100;
+                else
+                    Regulator.TargetDistance = int.Parse(distanceBox.Text);
+
+                Regulator.RunPIDAsync();
+            });
+        }
+
+
+        private void Relay_Clicked(object sender, EventArgs e)
         {
-            if (!RoboManager.IsConnected) return;
+            if (!PID.IsCompleted)
+            {
+                PID.Dispose();
+            }
 
-            if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
-                Regulator.TargetDistance = int.Parse(distanceBox.Text) * 100;
-            else
-                Regulator.TargetDistance = int.Parse(distanceBox.Text);
+            relay = Task.Run(() =>
+             {
+                 if (!RoboManager.IsConnected) return;
 
-            Regulator.Run();
+                 if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
+                    Regulator.TargetDistance = int.Parse(distanceBox.Text) * 100;
+                 else
+                     Regulator.TargetDistance = int.Parse(distanceBox.Text);
 
+                 Regulator.RunRelay();
+             });
         }
     }
 }

@@ -40,7 +40,7 @@ namespace MobileHMI.Common
             try
             {
                 byte[] MessageLength = { 0x0C, 0x00 };
-                byte[] Command = { 0x80, 0x04, 0xFF, 0x64, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 }; //test
+                byte[] Command = { 0x80, 0x04, 0xFF, 0x32, 0x07, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00 }; //test
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
@@ -228,12 +228,19 @@ namespace MobileHMI.Common
             }
         }
 
-        public string GetState()
+        public string GetState(int port)
         {
+            byte outputPort = 0x00;
+
             try
             {
+                if (port == 1)
+                {
+                    outputPort = 0x01;
+                }
+
                 byte[] MessageLength = { 0x0C, 0x00 };
-                byte[] Command = { 0x00, 0x06, 0x00 }; //test
+                byte[] Command = { 0x00, 0x06, outputPort }; //test
 
                 MessageLength[0] = (byte)Command.Length; //set the LSB(least significant bit) to the length of the message 
 
@@ -274,12 +281,19 @@ namespace MobileHMI.Common
             }
         }
 
-        public string ResetMotors()
+        public string ResetMotors(int port)
         {
+            byte outputPort = 0x00;
+
             try
             {
+                if (port == 1)
+                {
+                    outputPort = 0x01;
+                }
+
                 byte[] MessageLength = { 0x04, 0x00 };
-                byte[] Command = { 0x00, 0x0A, 0x00, 0x00 };
+                byte[] Command = { 0x00, 0x0A, outputPort, 0x00 };
 
                 this.BluetoothConnection
                         .OutputStream

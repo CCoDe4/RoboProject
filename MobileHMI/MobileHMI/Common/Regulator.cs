@@ -14,7 +14,7 @@ namespace MobileHMI.Common
 {
     public class Regulator
     {
-     
+
         private const double WHEEL_CIRCUMFERENCE = 17.59291886010284; //cm
         private IRoboManager _roboManager;
 
@@ -31,72 +31,17 @@ namespace MobileHMI.Common
         public double Ki { get; set; } = 0.1;
         public double Kd { get; set; } = 0.15;
 
-       // public Timer Timer { get; set; } //100ms
+        // public Timer Timer { get; set; } //100ms
 
-        public void Run()
+        public async void RunPIDAsync()
         {
-            //_roboManager.MoveForwards();
-            //StopAfterTargetDistance();
-            PID();
-            //RunTimer();
+            await PID();
         }
-
-        private void RunTimer()
+    
+        public void RunRelay()
         {
-            //this.Timer = new Timer();
-            //Timer.Interval = 500; //ms
-            //this.Timer.Elapsed += OnTimedEvent;
-
-            //this.Timer.Start();
-        }
-
-        private void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            //this.Timer.Stop();
-
-            //var thread =
-            Task.Run(() =>
-            {
-                Stopwatch test = new Stopwatch();
-                test.Start();
-
-                var response = _roboManager.GetState();
-
-                while (response == Constants.error)
-                {
-                    response = _roboManager.GetState();
-                }
-
-                var formatedResponse = response.Split(' ');
-
-                byte[] responseBytes = new byte[4];
-
-                //2 motors
-
-                for (int i = 0; i < responseBytes.Length; i++)
-                {
-                    responseBytes[i] = byte.Parse(formatedResponse[21 + i].ToString(), System.Globalization.NumberStyles.HexNumber);
-                }
-
-                var encoderImpulses = BitConverter.ToInt32(responseBytes, 0);
-                double numberOfRotations = encoderImpulses / 360.00;
-                //currentDistance = numberOfRotations * wheelCircumference;
-
-                //if (currentDistance >= this.TargetDistance)
-                //{
-                //    _roboManager.StopMotors();
-                //    var a = 1;
-                //}
-                //else
-                //{
-                //    this.Timer.Start();
-
-                //}
-
-                test.Stop();
-                ;
-            });
-
+            _roboManager.MoveForwards();
+            StopAfterTargetDistance();
         }
 
         private void StopAfterTargetDistance()
@@ -119,18 +64,13 @@ namespace MobileHMI.Common
 
             _roboManager.StopMotors();
 
-            //if (totalDistance > this.TargetDistance)
-            //{
-            //    double difference = totalDistance - this.TargetDistance;
-
-            //    ClearDifference(totalDistance);
-            //}
-            string test = _roboManager.ResetMotors();
+            string firstMotor = _roboManager.ResetMotors(0);
+            string secondMotor = _roboManager.ResetMotors(1);
 
             _roboManager.StopMotors();
         }
 
-        private void PID()
+        private async Task PID()
         {
             double currentDistance = 0.00;
             double integrator = 0.00;
@@ -139,47 +79,60 @@ namespace MobileHMI.Common
             double voltageToMotors = 50;
             bool shouldRun = true;
             double totalDistance = 0.00;
-            byte sendVoltage = 0; 
+            byte sendVoltage = 0;
 
-            while (true)
+            string firstMotor = _roboManager.ResetMotors(0);
+            string secondMotor = _roboManager.ResetMotors(1);
+
+            await Task.Run(() =>
             {
-                sendVoltage = (byte)voltageToMotors; //cast при отрицателен знак
-                _roboManager.Move(sendVoltage);
-                currentDistance = GetDistance() - totalDistance;
-                
-                totalDistance += currentDistance;
-                error = (TargetDistance - totalDistance);
-                voltageToMotors = Kp * error + Ki * integrator; 
-
-
-                Debug.WriteLine("totalDistance Distance: " + totalDistance + "Voltage: " + sendVoltage);
-
-                if (voltageToMotors > 95)
+                while (true)
                 {
-                    voltageToMotors = 95;
+                    sendVoltage = (byte)voltageToMotors; //cast при отрицателен знак
+                    _roboManager.Move(sendVoltage);
+                    currentDistance = GetDistance() - totalDistance;
+
+                    totalDistance += currentDistance;
+                    error = (TargetDistance - totalDistance);
+                    voltageToMotors = Kp * error + Ki * integrator;
+
+
+                    Debug.WriteLine("totalDistance Distance: " + totalDistance + "Voltage: " + sendVoltage);
+
+                    if (voltageToMotors > 95)
+                    {
+                        voltageToMotors = 95;
+                    }
+
+                    if (voltageToMotors < -95)
+                    {
+                        voltageToMotors = -95;
+                    }
+
+                    integrator = integrator + error * 0.1;
+
+                    Thread.Sleep(Ts);
+
+                    shouldRun = totalDistance >= this.TargetDistance ? false : true;
                 }
-
-                if (voltageToMotors < -95)
-                {
-                    voltageToMotors = -95; 
-                }
-                integrator = integrator + error * 0.1;
-
-                Thread.Sleep(Ts);
-
-                shouldRun = totalDistance >= this.TargetDistance ? false : true;
-            }
-        }
-
-        private void ClearDifference(double difference)
-        {
-            return;
-             
+            });
         }
 
         private double GetDistance()
         {
-            var response = _roboManager.GetState();
+            var leftEncoder = ProcessEncoderImpulses(0);
+            var rightEncoder = ProcessEncoderImpulses(1);
+
+            var encoderImpulses = (leftEncoder + rightEncoder) / 2;
+
+            double numberOfRotations = encoderImpulses / 360.00;
+
+            return numberOfRotations * WHEEL_CIRCUMFERENCE;
+        }
+
+        private double ProcessEncoderImpulses(int port)
+        {
+            var response = _roboManager.GetState(port);
 
             if (response == Constants.error)
                 return 0;
@@ -194,9 +147,8 @@ namespace MobileHMI.Common
             }
 
             var encoderImpulses = BitConverter.ToInt32(responseBytes, 0);
-            double numberOfRotations = encoderImpulses / 360.00;
 
-            return numberOfRotations * WHEEL_CIRCUMFERENCE;
+            return encoderImpulses;
         }
     }
 }

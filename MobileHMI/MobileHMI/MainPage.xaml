@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MobileHMI"
+             xmlns:widget="clr-namespace:Android.Widget;assembly=Mono.Android"
              x:Class="MobileHMI.MainPage">
 
     <StackLayout>
@@ -34,7 +35,9 @@
 
         <StackLayout 
             x:Name="RealTimeControlPanel"
-            VerticalOptions="CenterAndExpand">
+            VerticalOptions="CenterAndExpand"
+            IsVisible="False">
+
             <StackLayout 
                          HorizontalOptions="Center"
                          VerticalOptions="CenterAndExpand">
@@ -75,8 +78,9 @@
 
         <StackLayout x:Name="RegulatorControl"
                      VerticalOptions="CenterAndExpand"
-                     IsVisible="False">
-            
+                     IsVisible="True">
+
+
             <StackLayout Orientation="Horizontal">
 
                 <Entry Text="1"
@@ -90,9 +94,19 @@
 
             </StackLayout>
 
-            <Button Text="Set"
-                    x:Name="btnSetDistance"
-                    Clicked="SetDistance_Clicked"/>
+            <StackLayout 
+                Orientation="Horizontal"
+                HorizontalOptions="CenterAndExpand">
+
+                <Button Text="Relay"
+                    x:Name="btnRelay"
+                    Clicked="Relay_Clicked"/>
+
+                <Button Text="PID"
+                    x:Name="btnPID"
+                    Clicked="PID_Clicked"/>
+                
+            </StackLayout>
             <!--<Button Text="Run motor"
                     Clicked="Button_Clicked">
                

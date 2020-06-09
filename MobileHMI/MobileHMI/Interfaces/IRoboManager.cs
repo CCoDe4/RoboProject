@@ -14,8 +14,8 @@ namespace MobileHMI.Interfaces
         void RightMotor();
         void Beep();
         void StopMotors();
-        string ResetMotors();
-        string GetState();
+        string ResetMotors(int port);
+        string GetState(int port);
 
         void Move(byte test);
     }

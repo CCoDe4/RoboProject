@@ -30,7 +30,7 @@ namespace MobileHMI.Common
         public int TargetDistance { get; set; }
 
         public double Kp { get; set; } = 7;
-        public double Ki { get; set; } = 0.4;
+        public double Ki { get; set; } = 0.15;
         public double Kd { get; set; } = 0.15;
 
         // public Timer Timer { get; set; } //100ms
@@ -52,18 +52,26 @@ namespace MobileHMI.Common
             double totalDistance = 0.00;
             double currentDistance = 0.00;
 
-            _roboManager.MoveForwards();
 
             while (shouldRun)
             {
+                _roboManager.MoveForwards();
+                currentDistance = GetDistance() - totalDistance;
+                //Debug.WriteLine("Current distance: " + currentDistance);
+                totalDistance += currentDistance;
+                Debug.WriteLine("totalDistance Distance: " + totalDistance + " " + "Voltage: " + "50");
+
+                Thread.Sleep(100); //Ts
+                _roboManager.StopMotors();
+
                 currentDistance = GetDistance() - totalDistance;
                 //Debug.WriteLine("Current distance: " + currentDistance);
 
                 totalDistance += currentDistance;
-                Debug.WriteLine("totalDistance Distance: " + totalDistance + " " + "Voltage: " + "50");
+                Debug.WriteLine("totalDistance Distance: " + totalDistance + " " + "Voltage: " + "0");
 
                 shouldRun = totalDistance >= this.TargetDistance ? false : true;
-               // Debug.WriteLine("Should run: " + shouldRun);
+                // Debug.WriteLine("Should run: " + shouldRun);
             }
 
             _roboManager.StopMotors();

@@ -17,10 +17,12 @@ namespace MobileHMI.Common
 
         private const double WHEEL_CIRCUMFERENCE = 17.59291886010284; //cm
         private IRoboManager _roboManager;
+        private bool runPID = true;
 
         public Regulator(IRoboManager roboManager)
         {
             _roboManager = roboManager;
+            
         }
 
         public bool IsConnected { get; set; }
@@ -40,7 +42,7 @@ namespace MobileHMI.Common
     
         public void RunRelay()
         {
-            _roboManager.MoveForwards();
+            this.runPID = false;
             StopAfterTargetDistance();
         }
 
@@ -49,6 +51,8 @@ namespace MobileHMI.Common
             bool shouldRun = true;
             double totalDistance = 0.00;
             double currentDistance = 0.00;
+
+            _roboManager.MoveForwards();
 
             while (shouldRun)
             {
@@ -80,13 +84,14 @@ namespace MobileHMI.Common
             bool shouldRun = true;
             double totalDistance = 0.00;
             byte sendVoltage = 0;
+            runPID = true;
 
             string firstMotor = _roboManager.ResetMotors(0);
             string secondMotor = _roboManager.ResetMotors(1);
 
             await Task.Run(() =>
             {
-                while (true)
+                while (runPID)
                 {
                     sendVoltage = (byte)voltageToMotors; //cast при отрицателен знак
                     _roboManager.Move(sendVoltage);
@@ -115,6 +120,10 @@ namespace MobileHMI.Common
 
                     shouldRun = totalDistance >= this.TargetDistance ? false : true;
                 }
+
+                _roboManager.StopMotors();
+                firstMotor = _roboManager.ResetMotors(0);
+                secondMotor = _roboManager.ResetMotors(1);
             });
         }
 

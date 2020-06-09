@@ -36,7 +36,7 @@
         <StackLayout 
             x:Name="RealTimeControlPanel"
             VerticalOptions="CenterAndExpand"
-            IsVisible="False">
+            IsVisible="True">
 
             <StackLayout 
                          HorizontalOptions="Center"
@@ -78,7 +78,7 @@
 
         <StackLayout x:Name="RegulatorControl"
                      VerticalOptions="CenterAndExpand"
-                     IsVisible="True">
+                     IsVisible="False">
 
 
             <StackLayout Orientation="Horizontal">

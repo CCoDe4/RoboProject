@@ -17,8 +17,6 @@ namespace MobileHMI
         public MobileRoboManager RoboManager;
         public Regulator Regulator;
         List<string> Metrics = new List<string>() { Constants.meter, Constants.centimeter };
-        Task relay;
-        Task PID;
 
         public MainPage()
         {
@@ -158,11 +156,11 @@ namespace MobileHMI
 
 
         private void PID_Clicked(object sender, EventArgs e)
-        {           
-            PID = Task.Run(() =>
-            {
-                if (!RoboManager.IsConnected) return;
+        {
+            if (!RoboManager.IsConnected) return;
 
+            Task.Run(() =>
+            {
                 if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
                     Regulator.TargetDistance = int.Parse(distanceBox.Text) * 100;
                 else
@@ -175,22 +173,17 @@ namespace MobileHMI
 
         private void Relay_Clicked(object sender, EventArgs e)
         {
-            if (!PID.IsCompleted)
+
+            if (!RoboManager.IsConnected) return;
+            Task.Run(() =>
             {
-                PID.Dispose();
-            }
-
-            relay = Task.Run(() =>
-             {
-                 if (!RoboManager.IsConnected) return;
-
-                 if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
+                if (DistancePicker.SelectedItem.ToString() == Constants.meter) //work with cm
                     Regulator.TargetDistance = int.Parse(distanceBox.Text) * 100;
-                 else
-                     Regulator.TargetDistance = int.Parse(distanceBox.Text);
+                else
+                    Regulator.TargetDistance = int.Parse(distanceBox.Text);
 
-                 Regulator.RunRelay();
-             });
+                Regulator.RunRelay();
+            });
         }
     }
 }

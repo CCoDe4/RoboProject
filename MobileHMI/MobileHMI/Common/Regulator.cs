@@ -57,13 +57,13 @@ namespace MobileHMI.Common
             while (shouldRun)
             {
                 currentDistance = GetDistance() - totalDistance;
-                Debug.WriteLine("Current distance: " + currentDistance);
+                //Debug.WriteLine("Current distance: " + currentDistance);
 
                 totalDistance += currentDistance;
-                Debug.WriteLine("totalDistance Distance: " + totalDistance);
+                Debug.WriteLine("totalDistance Distance: " + totalDistance + " " + "Voltage: " + "50");
 
                 shouldRun = totalDistance >= this.TargetDistance ? false : true;
-                Debug.WriteLine("Should run: " + shouldRun);
+               // Debug.WriteLine("Should run: " + shouldRun);
             }
 
             _roboManager.StopMotors();
@@ -81,7 +81,6 @@ namespace MobileHMI.Common
             int Ts = 100;
             double error = (TargetDistance - currentDistance);
             double voltageToMotors = 50;
-            bool shouldRun = true;
             double totalDistance = 0.00;
             byte sendVoltage = 0;
             runPID = true;
@@ -94,7 +93,7 @@ namespace MobileHMI.Common
                 while (runPID)
                 {
                     if (voltageToMotors >= 0.0)
-                        sendVoltage = (byte)voltageToMotors; //cast при отрицателен знак\
+                        sendVoltage = (byte)voltageToMotors; 
                     else
                         sendVoltage = (byte)(256+voltageToMotors);
 
@@ -105,24 +104,17 @@ namespace MobileHMI.Common
                     error = (TargetDistance - totalDistance);
                     voltageToMotors = Kp * error + Ki * integrator;
 
-
                     Debug.WriteLine("totalDistance Distance: " + totalDistance + "Voltage: " + sendVoltage);
 
                     if (voltageToMotors > 95)
-                    {
                         voltageToMotors = 95;
-                    }
 
                     if (voltageToMotors < -95)
-                    {
                         voltageToMotors = -95;
-                    }
 
                     integrator = integrator + error * 0.1;
 
                     Thread.Sleep(Ts);
-
-                    shouldRun = totalDistance >= this.TargetDistance ? false : true;
                 }
 
                 _roboManager.StopMotors();

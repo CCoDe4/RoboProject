@@ -29,8 +29,8 @@ namespace MobileHMI.Common
 
         public int TargetDistance { get; set; }
 
-        public double Kp { get; set; } = 5;
-        public double Ki { get; set; } = 0.1;
+        public double Kp { get; set; } = 7;
+        public double Ki { get; set; } = 0.4;
         public double Kd { get; set; } = 0.15;
 
         // public Timer Timer { get; set; } //100ms
@@ -93,7 +93,11 @@ namespace MobileHMI.Common
             {
                 while (runPID)
                 {
-                    sendVoltage = (byte)voltageToMotors; //cast при отрицателен знак
+                    if (voltageToMotors >= 0.0)
+                        sendVoltage = (byte)voltageToMotors; //cast при отрицателен знак\
+                    else
+                        sendVoltage = (byte)(256+voltageToMotors);
+
                     _roboManager.Move(sendVoltage);
                     currentDistance = GetDistance() - totalDistance;
 

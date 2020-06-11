@@ -63,11 +63,6 @@
 
             </StackLayout>
 
-            <Button BackgroundColor="Red"
-                    TextColor="White"
-                    Text="STOP Regulators"
-                    Clicked="StopControllers_Clicked">
-            </Button>
 
             <Button Text="Beep"
                     VerticalOptions="End"
@@ -107,6 +102,12 @@
                     Clicked="PID_Clicked"/>
                 
             </StackLayout>
+            
+            <Button BackgroundColor="Red"
+                    TextColor="White"
+                    Text="STOP and Reset"                    
+                    Clicked="StopControllers_Clicked">
+            </Button>
             <!--<Button Text="Run motor"
                     Clicked="Button_Clicked">
                

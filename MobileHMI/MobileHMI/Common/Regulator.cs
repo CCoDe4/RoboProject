@@ -38,6 +38,8 @@ namespace MobileHMI.Common
         public async void RunPIDAsync()
         {
             runRelay = false;
+            runPID = false; //exits previous PID loop in thread
+
             runPID = true;
             await PID();
         }
@@ -45,6 +47,8 @@ namespace MobileHMI.Common
         public void RunRelay()
         {
             this.runPID = false;
+            runRelay = false; //exits previous relay loop 
+
             this.runRelay = true;
 
             StopAfterTargetDistance();

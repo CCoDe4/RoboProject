@@ -65,8 +65,8 @@
 
             <Button BackgroundColor="Red"
                     TextColor="White"
-                    Text="STOP"
-                    Clicked="Stop_Clicked">
+                    Text="STOP Regulators"
+                    Clicked="StopControllers_Clicked">
             </Button>
 
             <Button Text="Beep"

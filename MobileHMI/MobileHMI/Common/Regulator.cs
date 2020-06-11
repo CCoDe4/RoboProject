@@ -18,11 +18,11 @@ namespace MobileHMI.Common
         private const double WHEEL_CIRCUMFERENCE = 17.59291886010284; //cm
         private IRoboManager _roboManager;
         private bool runPID = true;
-
+        private bool runRelay = true; 
         public Regulator(IRoboManager roboManager)
         {
             _roboManager = roboManager;
-            
+
         }
 
         public bool IsConnected { get; set; }
@@ -37,12 +37,16 @@ namespace MobileHMI.Common
 
         public async void RunPIDAsync()
         {
+            runRelay = false;
+            runPID = true;
             await PID();
         }
-    
+
         public void RunRelay()
         {
             this.runPID = false;
+            this.runRelay = true;
+
             StopAfterTargetDistance();
         }
 
@@ -51,33 +55,60 @@ namespace MobileHMI.Common
             bool shouldRun = true;
             double totalDistance = 0.00;
             double currentDistance = 0.00;
+            double voltageToMotors = 50;
 
-
-            while (shouldRun)
-            {
-                _roboManager.MoveForwards();
-                currentDistance = GetDistance() - totalDistance;
-                //Debug.WriteLine("Current distance: " + currentDistance);
-                totalDistance += currentDistance;
-                Debug.WriteLine("totalDistance Distance: " + totalDistance + " " + "Voltage: " + "50");
-
-                Thread.Sleep(100); //Ts
-                _roboManager.StopMotors();
-
-                currentDistance = GetDistance() - totalDistance;
-                //Debug.WriteLine("Current distance: " + currentDistance);
-
-                totalDistance += currentDistance;
-                Debug.WriteLine("totalDistance Distance: " + totalDistance + " " + "Voltage: " + "0");
-
-                shouldRun = totalDistance >= this.TargetDistance ? false : true;
-                // Debug.WriteLine("Should run: " + shouldRun);
-            }
-
-            _roboManager.StopMotors();
+            byte sendNegativeVoltage = (byte)(256 - voltageToMotors);
+            byte sendPositiveVoltage = (byte)voltageToMotors;
+            int delta = 3;
 
             string firstMotor = _roboManager.ResetMotors(0);
             string secondMotor = _roboManager.ResetMotors(1);
+
+            while (this.runRelay)
+            {
+                currentDistance = GetDistance() - totalDistance;
+                totalDistance += currentDistance;
+
+                Thread.Sleep(100);
+
+                if (totalDistance >= this.TargetDistance)
+                {
+                    if (totalDistance > TargetDistance + delta)
+                    {
+                        _roboManager.Move(sendNegativeVoltage);
+                        Debug.WriteLine($"totalDistance Distance: {totalDistance} Voltage: {sendNegativeVoltage}");
+                    }
+                    else
+                    {
+                        _roboManager.StopMotors();
+                        Debug.WriteLine($"totalDistance Distance: {totalDistance} Voltage: 0");
+                    }
+                }
+                else
+                {
+                    if (totalDistance < TargetDistance - delta)
+                    {
+                        _roboManager.Move(sendPositiveVoltage);
+                        Debug.WriteLine($"totalDistance Distance: {totalDistance} Voltage: {sendPositiveVoltage}");
+                    }
+                    else
+                    {
+                        _roboManager.StopMotors();
+                        Debug.WriteLine($"totalDistance Distance: {totalDistance} Voltage: 0");
+                    }
+                }
+
+
+                // shouldRun = totalDistance >= this.TargetDistance ? false : true;
+            }
+
+            Debug.WriteLine($"Exited RELAY controller.");
+
+
+            _roboManager.StopMotors();
+
+            firstMotor = _roboManager.ResetMotors(0);
+            secondMotor = _roboManager.ResetMotors(1);
 
             _roboManager.StopMotors();
         }
@@ -101,9 +132,9 @@ namespace MobileHMI.Common
                 while (runPID)
                 {
                     if (voltageToMotors >= 0.0)
-                        sendVoltage = (byte)voltageToMotors; 
+                        sendVoltage = (byte)voltageToMotors;
                     else
-                        sendVoltage = (byte)(256+voltageToMotors);
+                        sendVoltage = (byte)(256 + voltageToMotors);
 
                     _roboManager.Move(sendVoltage);
                     currentDistance = GetDistance() - totalDistance;
@@ -125,6 +156,8 @@ namespace MobileHMI.Common
                     Thread.Sleep(Ts);
                 }
 
+                Debug.WriteLine($"Exited PI controller.");
+
                 _roboManager.StopMotors();
                 firstMotor = _roboManager.ResetMotors(0);
                 secondMotor = _roboManager.ResetMotors(1);
@@ -142,6 +175,8 @@ namespace MobileHMI.Common
 
             return numberOfRotations * WHEEL_CIRCUMFERENCE;
         }
+
+       
 
         private double ProcessEncoderImpulses(int port)
         {
@@ -162,6 +197,20 @@ namespace MobileHMI.Common
             var encoderImpulses = BitConverter.ToInt32(responseBytes, 0);
 
             return encoderImpulses;
+        }
+
+        public void StopRegulators()
+        {
+            this.runPID = false;
+            this.runRelay = false;
+
+            Thread.Sleep(1500);
+
+            _roboManager.StopMotors();
+
+            Thread.Sleep(1500);
+            _roboManager.ResetMotors(0);
+            _roboManager.ResetMotors(1);
         }
     }
 }

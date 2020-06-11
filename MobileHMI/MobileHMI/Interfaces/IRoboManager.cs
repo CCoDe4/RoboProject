@@ -17,6 +17,6 @@ namespace MobileHMI.Interfaces
         string ResetMotors(int port);
         string GetState(int port);
 
-        void Move(byte test);
+        void Move(byte voltageToMotors);
     }
 }

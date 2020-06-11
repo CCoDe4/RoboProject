@@ -185,5 +185,14 @@ namespace MobileHMI
                 Regulator.RunRelay();
             });
         }
+
+        private void StopControllers_Clicked(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                Regulator.StopRegulators();
+            });
+
+        }
     }
 }
